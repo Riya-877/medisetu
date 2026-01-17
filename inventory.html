@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Medical Store Inventory | MediSetu</title>
+
+<style>
+:root {
+  --bg: #E0FBFC;
+  --card: #C2DFE3;
+  --border: #9DB4C0;
+  --dark: #253237;
+  --muted: #5C6B73;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--dark);
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 { margin: 0; }
+
+.actions button {
+  margin-left: 8px;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.upload-box {
+  border: 2px dashed var(--border);
+  padding: 30px;
+  text-align: center;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.upload-box:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.kpi {
+  background: rgba(255,255,255,0.5);
+  padding: 16px;
+  border-radius: 14px;
+}
+
+.kpi h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.kpi p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+th, td {
+  padding: 10px;
+  font-size: 14px;
+}
+
+th {
+  background: var(--border);
+}
+
+tr:nth-child(even) {
+  background: rgba(255,255,255,0.45);
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.safe { background: #d4edda; color: #155724; }
+.warning { background: #fff3cd; color: #856404; }
+.critical { background: #f8d7da; color: #721c24; }
+
+button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--dark);
+  color: white;
+}
+
+button.secondary {
+  background: var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>🏪 Store Inventory Management</h1>
+    <div class="actions">
+      <button onclick="goToDashboard()">📊 Dashboard</button>
+      <button class="secondary" onclick="exitToHome()">🚪 Exit</button>
+    </div>
+  </div>
+
+  <!-- Upload -->
+  <div class="card">
+    <div class="upload-box" onclick="triggerUpload()">
+      <strong>⬆ Upload Inventory CSV</strong>
+      <p>Click or drag CSV file here</p>
+      <input type="file" id="fileInput" accept=".csv">
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi">
+      <h2 id="totalItems">0</h2>
+      <p>Total Items</p>
+    </div>
+    <div class="kpi">
+      <h2 id="criticalCount">0</h2>
+      <p>Critical Risk</p>
+    </div>
+    <div class="kpi">
+      <h2 id="expiringSoon">0</h2>
+      <p>Expiring Soon</p>
+    </div>
+  </div>
+
+  <!-- Inventory Table -->
+  <div class="card">
+    <h3>📦 Uploaded Inventory</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Medicine</th>
+          <th>Quantity</th>
+          <th>Expiry (days)</th>
+          <th>Temperature</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="inventoryTable"></tbody>
+    </table>
+  </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<script src="inventory.js"></script>
+</body>
+</html>
